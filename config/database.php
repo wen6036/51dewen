@@ -17,7 +17,7 @@ return [
     // 数据库名
     'database'        => 'tp_template',
     // 用户名
-    'username'        => 'wen6036',
+    'username'        => 'root',
     // 密码
     'password'        => 'wen6036',
     // 端口
