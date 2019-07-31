@@ -1,0 +1,28 @@
+.info{
+	width: 100%;
+	display: block;
+	margin:0 auto;
+	padding: 15px;
+}
+.info_menu ul,.info_menu{
+	list-style-type: none;
+	display: block;
+}
+
+.info_menu ul li{
+	color: #4b4b4b;
+	background: #fff;
+	padding: 6px 10px;
+	display: inline-block;
+	border-radius: 5px
+}
+.info_menu ul li:hover{
+	background: #fff;
+	color: #4b4b4b;
+	cursor: pointer;
+}
+.info_menu ul .active{
+	color: #fff;
+	background: #4b4b4b;
+
+}

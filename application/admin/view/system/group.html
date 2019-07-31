@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {include file="public/link" /}
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="box-header with-border">
+            <h3 class="box-title">角色管理</h3>
+            <div class="box-tools pull-right">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins group_add" style="padding:10px 15px">
+                    <a class="btn btn-info" href="{:url('admin/System/group_add')}">
+                        新增
+                    </a>
+
+                    <a class="btn btn-danger del_all">
+                        删除
+                    </a>
+
+                    <div class="ibox-content">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" class="chose-all"></th>
+                                        <th>id</th>
+                                        <th>角色名</th>
+                                        <th>描述</th>
+                                        <th>是否启用</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                    <tbody>
+                        {volist name="info" id="vo"}
+                        <tr>
+                            <td><input type="checkbox" name="" value="{$vo.id}"></td>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.name}</td>
+                            <td>{$vo.description}</td>
+                            <td>{if condition="$vo.status eq 1"}
+                                <i class="fa fa-check text-navy"></i>
+                                {else /}
+                                禁用
+                                {/if}</td>
+                            <td>
+                                <a href="{:url('admin/System/access',array('id'=>$vo.id))}" title="授权" class="btn btn-warning"> <i class="fa fa-key"></i> </a>
+                                <a href="{:url('admin/System/group_edit',array('id'=>$vo.id))}" title="修改" class="btn btn-success"> <i class="fa fa-pencil"></i> </a>
+                                <a  title="删除" class="btn btn-danger del_find" data="{$vo.id}"> <i class="fa fa-trash"></i> </a>
+                            </td>                                
+                        </tr>
+                        {/volist}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    $(".chose-all").click(function () {
+        if ($(this).is(":checked")) {
+            $('input[type="checkbox"]').not(".chose").prop("checked", true);
+        } else {
+            $('input[type="checkbox"]').not(".chose").prop("checked", false);
+        }
+    });
+    $('.del_all').click(function(){
+        var arr = [];
+        $("input[type='checkbox']:checked").not(".chose-all").each(function () {
+            arr.push($(this).val())
+        });
+
+        $.ajax({
+            url:"{:url('admin/System/del_group')}",
+            data:{id:arr.toString()},
+            success:function(res){
+                if(res.code == 1){
+                    layer.msg(res.msg, {
+                      icon: 2,
+                      time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        // window.parent.location.reload();
+                        window.location.reload();
+                    }); 
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+        })
+    })
+    $('.del_find').click(function(){
+       var id = $(this).attr('data');
+
+        $.ajax({
+            url:"{:url('admin/System/del_group')}",
+            data:{id:id},
+            success:function(res){
+                console.log(res)
+                if(res.code == 1){
+                    layer.msg(res.msg, {
+                      icon: 2,
+                      time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        // window.parent.location.reload();
+                        window.location.reload();
+                    }); 
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+        })
+    })
+
+</script>
+</html>

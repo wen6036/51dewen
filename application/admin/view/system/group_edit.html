@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H+ 后台主题UI框架 - 富文本编辑器</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    {include file="public/link" /}
+    <link href="__STATIC__/admin/css/plugins/summernote/summernote.css" rel="stylesheet">
+    <link href="__STATIC__/admin/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+    <script src="__STATIC__/common/js/imgupload.js"></script>
+    <script src="__STATIC__/admin/js/plugins/summernote/summernote.min.js"></script>
+    <script src="__STATIC__/admin/js/plugins/summernote/summernote-zh-CN.js"></script>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="box-header with-border">
+            <div>
+                <h3 class="box-title"><a href="{:url('admin/System/group')}">角色管理</a>>添加角色</h3>
+            </div>
+            <div class="box-tools pull-left">
+                <h2>添加角色</h2>
+            </div>
+            <div class="box-tools pull-right">
+                <a href="javascript:window.parent.location.reload();">
+                    <button type="button" class="btn btn-box-tool f16" ajax-reload><i class="fa fa-chevron-left"></i></button>
+                </a>
+                <a href="javascript:location.reload();">
+                    <button type="button" class="btn btn-box-tool f16" ajax-reload><i class="fa fa-refresh"></i></button>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12"  style="margin-top: 40px">
+                <form  method="post" class="form-horizontal" id="myForm">   
+                <div class="ibox float-e-margins">
+                    <div class="form-group" style="height: 40px;line-height: 40px;width: 60%;">
+                        <div  class="col-sm-2 col-xs-2"><label>名称</label></div>
+                        <div class="col-sm-5 col-xs-5">
+                            <input type="text" placeholder="名称" class="form-control" name="name" value="{$info.name}">
+                        </div>
+                    </div>
+                    <div class="form-group" style="height: 40px;line-height: 40px;width: 60%;">
+                        <label class="col-sm-2  col-xs-2control-label">描述</label>
+                        <div class="col-sm-5  col-xs-5">
+                            <input type="text" placeholder="描述" class="form-control" name="description" value="{$info.description}">
+                        </div>
+                    </div>
+                    <div class="form-group" style="height: 40px;line-height: 40px;width: 60%;">
+                        <label class="col-sm-2  col-xs-2control-label">是否启用</label>
+                        <div class="col-sm-5  col-xs-5" style="margin-top: 15px">
+                                <input type="hidden" name="status" value="{$info.status}">
+                                <input type="hidden" name="id" value="{$info.id}">
+                                {if condition="$info.status eq 1"}
+                                <div class="onoffswitch">
+                                    <input type="checkbox" checked class="onoffswitch-checkbox" id="example1">
+                                    <label class="onoffswitch-label" for="example1">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                                {else /}
+                                <div class="onoffswitch">
+                                    <input type="checkbox" class="onoffswitch-checkbox" id="example2">
+                                    <label class="onoffswitch-label" for="example2">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                                {/if}
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="form-group" style="height: 40px;line-height: 40px;width: 60%;">
+                        <label class="col-sm-2  col-xs-2control-label"></label>
+                        <div class="col-sm-5  col-xs-5">
+                            <div class="btn btn-primary" id="make_sure">确定提交</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+    var switchnum = {$info.status};
+    $('.onoffswitch-label').click(function(){
+        if(switchnum == 1 ){
+            $('input[name=status]').val(2)
+        }else{
+            $('input[name=status]').val(1)
+        }
+    })
+
+    $('#make_sure').click(function(){
+        $.ajax({
+        //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "{:url('admin/System/group_edit')}" ,//url
+            data: $('#myForm').serialize(),
+            success: function (result) {
+                if(result.code == 1){
+                    layer.msg(result.msg, {
+                      icon: 2,
+                      time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        // window.parent.location.reload();
+                        window.location.reload();
+                    }); 
+                }else{
+                    layer.msg(result.msg);
+                }
+            },
+            error : function() {
+                alert("异常！");
+            }
+        });
+
+    })
+
+</script>
+
+</body>
+</html>

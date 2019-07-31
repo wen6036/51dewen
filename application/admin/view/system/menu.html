@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {include file="public/link" /}
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="box-header with-border">
+            <h3 class="box-title">后台菜单</h3>
+            <div class="box-tools pull-right">
+                <a href="javascript:location.reload();">
+                    <button type="button" class="btn btn-box-tool f16" ajax-reload><i class="fa fa-refresh"></i></button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins" style="padding:10px 15px">
+                <a class="btn btn-success" href="">
+                    前台菜单
+                </a>
+                <a class="btn btn-danger" href="">
+                    后台菜单
+                </a>
+
+                <a class="btn btn-info" href="{:url('admin/System/addMenu')}">
+                    添加菜单
+                </a>
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                	<!-- <th><input type="checkbox"  class="i-checks" name="input[]"></th> -->
+                                    <th>id</th>
+                                    <th>名称</th>
+                                    <th>地址</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            	{volist name="list" id="vo"}
+	                                <tr>
+                                        <td>{$vo.id}</td>
+                                        <td>{$vo.title}</td>
+                                        <td><span class="pie">{$vo.href}</span>
+                                        </td>
+                                        <td>
+                                            {if condition="$vo.status eq 1"}
+                                            <i class="fa fa-check text-navy"></i>
+                                            {else /}
+                                            禁用
+                                            {/if}
+                                        </td>
+                                        <td>
+                                            <a href="{:url('admin/System/edit_menu', ['id' => $vo['id']])}">编辑</a>
+                                            <a class="del_menu" data="{$vo.id}">删除</a>
+                                        </td>
+                                    </tr>
+                                    {notempty name="vo['sub']"}
+                                        {volist name="vo['sub']" id="voo"}
+                                            <tr>
+                                                <td>{$voo.id}</td>
+                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-{$voo.title}</td>
+			                                    <td><span class="pie">{$voo.href}</span>
+			                                    </td>
+			                                    <td>
+                                                    {if condition="$voo.status eq 1"}
+                                                    <i class="fa fa-check text-navy"></i>
+                                                    {else /}
+                                                    禁用
+                                                    {/if}
+                                                </td>
+			                                    <td>
+                                                    <a href="{:url('admin/System/edit_menu', ['id' => $voo['id']])}">编辑</a>
+                                                    <a class="del_menu" data="{$voo.id}">删除</a>
+			                                    </td>
+			                                </tr>
+                                            {notempty name="voo['sub']"}
+                                                {volist name="voo['sub']" id="vooo"}
+                                                    <tr>
+                                                        <td>{$vooo.id}</td>
+                                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-{$vooo.title}</td>
+                                                        <td><span class="pie">{$vooo.href}</span>
+                                                        </td>
+                                                        <td>
+                                                            {if condition="$vooo.status eq 1"}
+                                                            <i class="fa fa-check text-navy"></i>
+                                                            {else /}
+                                                            禁用
+                                                            {/if}
+                                                        </td>
+                                                        <td>
+                                                            <a href="{:url('admin/System/edit_menu', ['id' => $vooo['id']])}">编辑</a>
+                                                            <a class="del_menu" data="{$vooo.id}">删除</a>
+                                                        </td>
+                                                    </tr>
+                                                {/volist}
+                                            {/notempty}
+
+                                        {/volist}
+                                    {/notempty}
+                                {/volist} 
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $('.del_menu').click(function(){
+        var id = $(this).attr('data');
+          var r=confirm("确定删除？")
+          if (r==true)
+            {
+            $.ajax({
+                url:"{:url('admin/System/del_menu')}",
+                type:'post',
+                data:{id:id},
+                dataType:'json',
+                success:function(result){
+                    if(result.code == 1){
+                        layer.msg(result.msg, {
+                          icon: 2,
+                          time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function(){
+                            // window.parent.location.reload();
+                            window.location.reload();
+                        }); 
+                    }else{
+                        layer.msg(result.msg);
+                    }              
+                }
+            })
+            }
+          
+
+    })
+
+</script>

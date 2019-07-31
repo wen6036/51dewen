@@ -1,0 +1,85 @@
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <span><img alt="image" class="img-circle" src="__STATIC__/admin//img/profile_small.jpg" /></span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                               <span class="block m-t-xs"><strong class="font-bold">Beaut-zihan</strong></span>
+                                <span class="text-muted text-xs block">超级管理员<b class="caret"></b></span>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a class="J_menuItem" href="form_avatar.html">修改头像</a>
+                                </li>
+                                <li><a class="J_menuItem" href="profile.html">个人资料</a>
+                                </li>
+                                <li><a class="J_menuItem" href="contacts.html">联系我们</a>
+                                </li>
+                                <li><a class="J_menuItem" href="mailbox.html">信箱</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="{:url('admin/login/login_out')}">安全退出</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">H+
+                        </div>
+                    </li>
+                        <style type="text/css">
+                            .home:hover{
+                                background: #293846;
+                                color:#fff;
+                            }
+                        </style>
+                    <li>
+                        <a class="J_menuItem" href="{:url('admin/Index/index_v1')}" data-index="0" style="color: #a7b1c2;font-weight: 600;padding: 14px 20px 14px 25px;cursor: pointer;" class="home">
+                            <i class="fa fa-home" style="margin-right: 6px"></i>
+                                <span class="nav-label">首页</span>
+                        </a>
+                    </li>
+                    {volist name="list" id="vo"}
+                        <li> 
+                            {notempty name="vo['sub']"}
+                                <a href="#">
+                                <i class="fa {$vo.icon}"></i>
+                                <span class="nav-label">{$vo.title}</span>
+                                <span class="fa arrow"></span>
+                                {else /}
+                                <a class="J_menuItem" href="{:url($vo.href)}">
+                                <i class="fa fa-home"></i>
+                                <span class="nav-label">{$vo.title}</span>
+                            {/notempty}
+                               
+                            </a>
+                            <ul class="nav nav-second-level">
+                                {notempty name="vo['sub']"}
+                                    {volist name="vo['sub']" id="voo"}
+                                        <li>
+                                            {notempty name="voo['sub']"}
+                                                <a href="#"><i class="fa {$voo.icon}"></i><span class="nav-label">{$voo.title}</span><span class="fa arrow"></span></a>
+                                                <ul class="nav nav-third-level 111" aria-expanded="false">    
+                                                    {volist name="voo['sub']" id="vooo"}
+                                                        <li>
+                                                            <a  class="J_menuItem" href="{:url($vooo.href)}"><i class="fa {$vooo.icon}"></i>{$vooo.title}</a>
+                                                        </li>
+                                                    {/volist}
+                                                </ul>
+                                            {else /}
+                                            <a class="J_menuItem" href="{:url($voo.href)}"><i class="fa {$voo.icon}"></i>{$voo.title}</a>
+                                            {/notempty}
+                                        </li>
+
+                                    {/volist}
+                                {/notempty}
+                            </ul>
+                        </li>
+                    {/volist}
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->

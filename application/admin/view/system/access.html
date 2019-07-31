@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {include file="public/link" /}
+</head>
+<style>
+    ol, ul {
+        list-style-type: none;
+    }
+
+    .user-1-k {
+        padding: 10px 0;
+    }
+
+    .user-1-k, .user-two>li {
+        overflow: hidden;
+        min-width: 100px;
+    }
+
+    .user-1-k input, .user-two>li input, .user-three>li input {
+        float: left;
+        display: block;
+        /*background: url("__PUBLIC__/Coo/images/ico-check-none.png") no-repeat center;*/
+        background-size: 18px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .user-1-k input:checked, .user-two>li input:checked, .user-three>li input:checked {
+        background-size: 18px;
+    }
+
+    .user-1-k p, .user-two li p,.user-three li p {
+        float: left;
+        margin-left: 8px;
+        margin-top: 3px;
+        margin-bottom: 0;margin-right:5px;
+    }
+
+    .user-two,.user-three {
+        padding-left: 26px;
+        overflow: hidden;
+        margin: 10px 0;
+    }
+    .user-two:hover,.user-three:hover{cursor:pointer;}
+    .user-two>li {
+        float: left;
+        margin-right: 25px;
+    }
+    .user-three{width: 100%;
+        margin-top:30px;display: none;}
+    .user-three>li{height: 28px;}
+    .user-three>li p{line-height: 22px;}
+    .tc button {
+        width: 100px;
+        float: left;
+        margin-left: 15px;
+        margin-top: 0 !important;
+    }
+
+    .tc {
+        height: 34px;
+        margin-top: 15px;
+        margin-left: 15px;
+    }
+
+    hr {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .carte-three{
+        color: #28a6f0;margin-top: 8px;display: block;}
+</style>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="box-header with-border">
+            <h3 class="box-title"><a href="{:url('/admin/system/group')}">角色管理</a> >> 角色编辑</h3>
+            <div class="box-tools pull-right">
+                <a href="javascript:window.parent.location.reload();">
+                    <button type="button" class="btn btn-box-tool f16" ajax-reload><i class="fa fa-chevron-left"></i></button>
+                </a>
+                <a href="javascript:location.reload();">
+                    <button type="button" class="btn btn-box-tool f16" ajax-reload><i class="fa fa-refresh"></i></button>
+                </a>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 50px">
+
+
+
+
+<div class="box box-solid">
+    <div class="box-body">
+        <div class="builder listbuilder-box">
+            <div class="builder-container">
+                <div class="row">
+                    <div class="builder-table col-sm-12">
+                        <ul class="user-first">
+                            <li class="shop-name">
+                                <div class="user-1-k">
+                                    <input type="checkbox" class="chose-all">
+                                    <p>全选</p>
+                                </div>
+                                <hr>
+                            </li>
+                            {volist name="list" id="vo"}
+                                <li class="shop-name">
+                                    <div class="user-1-k">
+                                        <input type="checkbox" value="{$vo.id}" class="one-chose check goods-check shopCheck"  {if condition="$vo.rules_status eq 1 "}
+                                                            checked="checked"
+                                                        {/if}>
+                                        <p>{$vo.title}</p>
+                                    </div>
+                                    {notempty name="vo['sub']"}
+                                        <ul class="user-two">
+                                            {foreach name="vo['sub']" item="voo"}
+                                                <li>
+                                                    <input type="checkbox" value="{$voo['id']}"
+                                                           class="two-chose check goods-check goodsCheck" {if condition="$voo.rules_status eq 1 "}
+                                                            checked="checked"
+                                                        {/if}>
+                                                    <p>{$voo['title']}</p>
+                                                    {notempty name="voo['sub']"}
+                                                        <i class="fa fa-plus-circle carte-three"></i>
+                                                        <ul class="user-three">
+                                                            {volist name="voo['sub']" id="vooo"}
+                                                                <li>
+                                                                    <input type="checkbox" value="{$vooo['id']}"
+                                                                           class="three-chose check goods-check goodsCheck" {if condition="$vooo.rules_status eq 1 "}
+                                                            checked="checked"
+                                                        {/if}>
+                                                                    <p>{$vooo['title']}</p>
+                                                                </li>
+                                                            {/volist}
+                                                        </ul>
+                                                    {/notempty}
+
+                                                </li>
+                                            {/foreach}
+                                        </ul>
+                                    {/notempty}
+                                </li>
+                                <hr>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mt-20" style="margin-left: 30px">
+                <button class="btn btn-primary submit ajax-post" type="submit" target-form="form-builder">确认</button>
+                <button class="btn btn-default return" onclick="history.back(-1);return false;">返回</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+        </div>
+    </div>
+
+</body>
+<script>
+    $(".chose-all").click(function () {
+        if ($(this).is(":checked")) {
+            $('input[type="checkbox"]').not(".chose").prop("checked", true);
+        } else {
+            $('input[type="checkbox"]').not(".chose").prop("checked", false);
+        }
+    });
+
+    $(".ajax-post").click(function () {
+        var arr = [];
+        $("input[type='checkbox']:checked").not(".chose").each(function () {
+            arr.push($(this).val())
+        });
+        if (arr.length <= 0) {
+            console.log('错误');
+        } else {
+            $.ajax({
+                type:'post',
+                url:"{:url('admin/system/group_edit')}",
+                data: {rules: arr.toString(),id:"{$id}"},
+                success:function(result){
+                    if(result.code == 1){
+                    layer.msg(result.msg, {
+                      icon: 2,
+                      time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        // window.parent.location.reload();
+                        window.location.reload();
+                    }); 
+                }else{
+                    layer.msg(result.msg);
+                }
+                }
+            })
+
+        }
+    });
+
+    $(".carte-three").click(function(){
+        if($(this).hasClass('fa-plus-circle')){
+            $(this).removeClass('fa-plus-circle').addClass('fa-minus-circle');
+        }else{
+            $(this).removeClass('fa-minus-circle').addClass('fa-plus-circle');
+        }
+
+        $(this).parent("li").find(".user-three").slideToggle();
+    });
+
+    $(".one-chose").click(function () {
+        if ($(this).is(":checked")) {
+            ($(this).parent().parent()).find("ul").find(".check").prop("checked", true)
+        } else {
+            ($(this).parent().parent()).find("ul").find(".check").prop("checked", false)
+        }
+        chose_all();
+    });
+
+    $(".two-chose").click(function () {
+         var obj=$(this).parent().parent().children("li").find(".two-chose");
+         var length=obj.length;
+         obj.each(function () {
+             if(!$(this).is(":checked"))length=length-1;
+         });
+        if(length>0){
+            $(this).parent().parent().parent().find(".one-chose").prop("checked", true);
+        }else{
+            $(this).parent().parent().parent().find(".one-chose").prop("checked", false);
+        }
+        if ($(this).is(":checked")) {
+            ($(this).parent()).find("ul").find(".three-chose").prop("checked", true)
+        } else {
+            ($(this).parent()).find("ul").find(".three-chose").prop("checked", false)
+        }
+        chose_all();
+    });
+
+    $(".three-chose").click(function () {
+        chose_all();
+    });
+
+    function chose_all() {
+       var obj= $('input[type="checkbox"]').not(".chose-all");
+       var length=obj.length;
+       var total=obj.length;
+        obj.each(function () {
+            if(!$(this).is(":checked"))length=length-1;
+        });
+        if(length==total){
+            $(".chose-all").prop("checked", true);
+        }else{
+            $(".chose-all").prop("checked", false);
+        }
+    }
+    chose_all();
+</script>
+</html>

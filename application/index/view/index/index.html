@@ -1,0 +1,24 @@
+    {include file="public/header"}
+
+    {include file="public/aside"}
+    <main style="background: url(__PUBLIC__/index/static/img/bg-2.png) fixed;">
+	</main>
+    
+
+	<script type="text/javascript">
+        var url = $('.nav a').eq(0).attr('href');
+            // url = "{:url('index/info/index')}";
+        
+        $.ajax({
+            url:url,
+            type:'post',
+            data:{data:url},
+            dataType:"json",
+            success:function(data){
+                console.log(typeof(data))
+                $('main').html(data)
+            }
+        })
+	</script>
+    {include file="public/footer"}
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/common/paging/paging.css">
+    {include file="public/link" /}
+    <script src="__STATIC__/common/js/jquery.tmpl.min.js"></script>
+    <script src="__STATIC__/common/paging/paging.js"></script> 
+    <script type="text/javascript" src="__STATIC__/common/js/page.js"></script>
+    <!-- <script src="__STATIC__/common/js/plugins/layer/laydate/laydate.js"></script> -->
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="box-header with-border">
+            <h3 class="box-title">操作日志</h3>
+            <div class="box-tools pull-right">
+                <a href="javascript:location.reload();">
+                    <button type="button" class="btn btn-box-tool f16" ajax-reload><i class="fa fa-refresh"></i></button>
+                </a>
+            </div>
+        </div>
+        <div>
+            <!-- <a class="btn btn-info" href="{:url('admin/Article/article_add')}">添加文章</a> -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">添加分类</button>
+        </div>
+
+
+
+        <div class="ibox-content">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>分类名称</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content">
+                        {volist name="info" id="vo"}
+                            <tr>
+                                <td>{$vo.id}</td>
+                                <td>{$vo.classname}</td>
+                                <td><a data="{$vo.id}" title="删除" class="btn btn-danger btn-xs ajax-get confirm del_btn" style="margin-right:6px;">删除</a><a data="{$vo.id}" title="编辑" class="btn btn-success btn-xs ajax-get confirm edit_btn" style="margin-right:6px;">编辑</a></td>
+                            </tr>
+                        {/volist}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<!-- 模态框 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">添加分类</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">分类名称:</label>
+            <input type="text" class="form-control" name="classname">
+            <label for="recipient-name" class="errorclass" style="color:red;font-size: 12px;"></label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary classsure">确定提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+<!--列表模板开始-->
+<script type="text/javascript">
+    $('.classsure').click(function(){
+        var id = $(this).attr('data');
+        var classname = $('input[name=classname]').val();
+        if(classname ==''){
+            $('.errorclass').html('分类名称不能为空');
+        }else{
+            $('#exampleModal').modal('toggle');
+            $.ajax({
+                url:"{:url('admin/Article/edit_artclass')}",
+                data:{id:id,classname:classname},
+                type:'post',
+                success:function(res){
+                        layer.msg(res.msg, {
+                          icon: 2,
+                          time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        }, function(){
+                            window.location.reload();
+                        }); 
+                }
+            })
+            
+        }
+    })
+    $('.edit_btn').click(function(){
+        var id = $(this).attr('data');
+        $('.classsure').attr('data',id);
+            $('#exampleModal').modal('toggle'); 
+            $.ajax({
+                url:"{:url('admin/Article/res_artclass')}",
+                type:'post',
+                data:{id:id},
+                dataType:'json',
+                success:function(res){
+                    $('input[name=classname]').val(res.classname);
+                }
+            })       
+    })
+
+    $('.del_btn').click(function(){
+        var id = $(this).attr('data');
+          var r=confirm("确定删除？")
+          if (r==true)
+            {
+                console.log(id)
+                $.ajax({
+                    url:"{:url('admin/Article/del_artclass')}",
+                    type:'post',
+                    data:{id:id},
+                    dataType:'json',
+                    success:function(result){
+                        if(result.code == 1){
+                            layer.msg(result.msg, {
+                              icon: 2,
+                              time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function(){
+                                // window.parent.location.reload();
+                                window.location.reload();
+                            }); 
+                        }else{
+                            layer.msg(result.msg);
+                        }              
+                    }
+                })
+            }
+          
+
+    })
+
+</script>
+</html>

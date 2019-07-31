@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {include file="public/link" /}
+    <link rel="stylesheet" type="text/css" href="__STATIC__/common/paging/paging.css">
+    <script src="__STATIC__/common/js/jquery.tmpl.min.js"></script>
+    <script src="__STATIC__/common/paging/paging.js"></script> 
+    <script type="text/javascript" src="__STATIC__/common/js/page.js"></script>
+    <!-- <script src="__STATIC__/common/js/plugins/layer/laydate/laydate.js"></script> -->
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="box-header with-border">
+            <h3 class="box-title">操作日志</h3>
+            <div class="box-tools pull-right">
+                <a href="javascript:location.reload();">
+                    <button type="button" class="btn btn-box-tool f16" ajax-reload><i class="fa fa-refresh"></i></button>
+                </a>
+            </div>
+        </div>
+        <div>
+            <a class="btn btn-info" href="{:url('admin/Article/article_add')}">添加文章</a>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">添加分类</button>
+        </div>
+        <div class="col-sm-12">
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-3 b-r">
+                        <input type="text" placeholder="请输入标题" name="title" class="form-control">
+                    </div>
+                    <div class="col-sm-2 b-r">
+                        <button type="button" class="btn btn-success search-btn">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="ibox-content">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>用户名</th>
+                            <th>创建时间</th>
+                            <th>分类</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="content">
+    <tr> 
+        <td>${id}</td>
+        <td>${title}</td>
+        <td>${create_time}</td>
+        <td>${leclass}</td>
+
+        <td>
+        <a data-status="${id}" title="删除" class="btn btn-danger btn-xs ajax-get confirm" onclick="del_btn(this)" style="margin-right:6px;">删除</a>
+        </td>
+    </tr>
+                    </tbody>
+                </table>
+                <!-- 列表底部按钮 -->
+                <div class="paginations">
+                    <div id="pageTool"><p class="count-page"></p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

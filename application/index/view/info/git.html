@@ -1,0 +1,27 @@
+    {include file="public/header"}
+    {include file="public/aside"}
+    <main style="background: url(__PUBLIC__/index/static/img/bg-2.png) fixed;">
+		        <div class="info">
+		            <div class="info_menu">
+		                <ul>
+		                    <li data-url="{:url('index/index/index')}"><a href="{:url('index/index/index')}">首页</a></li>
+		                    {volist name="list" id="vo"}
+		                        <li data-url="{:url($vo.urlname)}"><a href="{:url($vo.urlname)}">{$vo.classname}</a></li>
+		                    {/volist}
+		                </ul>
+		            </div>
+		        </div>
+		        <div class="info_main">
+		            {$info}
+		        </div>
+	</main>
+
+        <script type="text/javascript">
+            $('.info_menu ul li').eq(0).css({'color':'#fff','background':'#4b4b4b'});
+            $('.info_menu ul li').click(function(){
+                $(this).css({'color':'#fff','background':'#4b4b4b'}).siblings().css({'color':'#c40b00','background':'#fff'});
+            })  
+        </script>
+    {include file="public/footer"}
+
+

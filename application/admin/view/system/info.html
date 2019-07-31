@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {include file="public/link" /}
+    <script src="__STATIC__/common/js/imgupload.js"></script>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>个人信息<small></small></h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form method="get" class="form-horizontal" id="filing_form">
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">用户名</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="{$info.username|default=''}" name="username" disabled="disabled">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">昵称</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="{$info.nickname}" name="nickname">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                 <label class="col-sm-2 control-label">头像</label>
+                                <div class="col-sm-5">
+                                <img style="width: 120px;height:120px;cursor: pointer;" onclick="upload_pic(this)" src="{$info.headimg|default='__STATIC__/common/images/default.png'}"><em style="padding-left: 10px;display: inline-block;line-height: 34px;color: #a94442;font-style: normal;font-size: 12px;" class="help-block"></em>
+                                    <input type="hidden" name="img" class="custom_image" value="{$info.headimg|default='__STATIC__/common/images/default.png'}">
+                                    <input type="file" id="file_image" style="display: none;">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">手机</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="{$info.tel}" name="tel">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">邮箱</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" value="{$info.email}" name="email">
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密码</label>
+
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" name="password">
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="id" value="{$info.id}">
+
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-primary  save" type="submit">保存内容</button>
+                                    <button class="btn btn-white" type="submit">取消</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    // <!-- 图片上传 -->
+    function upload_pic(obj) {
+        // 触发上传按钮
+        $("#file_image").click();
+        $('#file_image').basePic({maxWidth: 400, maxHeight: 400}, function (e) {
+            if (e.status) {
+                $(".custom_image").val(e.src);
+                $(obj).attr('src', e.src);
+                $('.help-block').html('');
+            } else {
+                $('.help-block').html('<i class="fa fa-info-circle"></i>' + e.tip);
+                $('.help-block').css("color", "#a94442");
+            }
+        });
+    }        
+
+    $('.save').click(function(){
+        $(this).attr('disabled','disabled');
+var username = $('input[name=username]').val();
+var img = $('input[name=img]').val();
+var nickname = $('input[name=nickname]').val();
+var username = $('input[name=username]').val();
+        $.ajax({
+                url:"{:url('admin/System/add_info')}",
+                type:'post',
+                data:$("#filing_form").serialize(),
+                success:function(res){
+                    console.log(res)
+                    // if(res.code==1){
+                    //     layer.msg('发布成功', {
+                    //           icon: 2,
+                    //           time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    //         }, function(){
+                    //             window.location.href="{:url('admin/Article/artlist')}";
+                    //         });
+                    // }else{
+                    //     layer.msg('发布失败');
+                    // }
+                }
+            })
+
+    })
+</script>
+</html>

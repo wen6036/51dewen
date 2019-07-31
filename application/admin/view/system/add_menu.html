@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {include file="public/link" /}
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="box-header with-border">
+            <h3 class="box-title"><a href="{:url('admin/System/menu')}"> 菜单管理 </a> >> 新增菜单</h3>
+            <div class="box-tools pull-right">
+                <a href="javascript:window.parent.location.reload();">
+                    <button type="button" class="btn btn-box-tool f16" ajax-reload><i class="fa fa-chevron-left"></i></button>
+                </a>
+                <a href="javascript:location.reload();">
+                    <button type="button" class="btn btn-box-tool f16" ajax-reload><i class="fa fa-refresh"></i></button>
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <form  method="post" class="form-horizontal" id="myForm">                      <fieldset>
+                    <input type="hidden" name="id" value="{$info.id}">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">菜单名称</label>
+                        <div class="col-sm-6">
+                            <input type="text" placeholder="菜单名称" class="form-control" name="title" value="{$info.title}">
+                        </div>
+                        <div class="col-md-3 help-block">
+                            <span class="input-title"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">控制器</label>
+                        <div class="col-sm-6">
+                            <input type="text" placeholder="控制器/方法" class="form-control" name="href" value="{$info.href}">
+                        </div>
+                        <div class="col-md-3 help-block">
+                            <span class="input-name"></span>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">上级菜单</label>
+                        <div class="col-sm-6">
+                            <select class="form-control m-b" name="pid" id="menulist">
+                                <option value="0">顶级菜单</option>
+                                {volist name="list" id="vo"}
+                                    <option class="one" value="{$vo['id']}">
+                                    {$vo.title}
+                                    {notempty name="vo['sub']"}
+                                        {volist name="vo['sub']" id="voo"}
+                                            <option class="two" value="{$voo['id']}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-
+                                            {$voo['title']} </option>
+                                        {/volist}
+                                    {/notempty}
+                                {/volist}                               
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">前后台</label>
+                        <div class="col-sm-6">
+                            <select class="form-control m-b" name="model_id" id="model_id">
+                                <option value="1">前台</option>
+                                <option value="2">后台</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">选择图标</label>
+                        <div class="col-sm-6">
+                            <div class="input-group m-b"><span class="input-group-addon"><i class="fa fa-info-circle"></i></span>
+                                <!-- <input type="text"  class="form-control"> -->
+                                <input class="form-control iconpicker" placeholder="选择图标" name="icon" id="icon" type="text" data-toggle="modal" data-target="#myModal" value="{$info['icon']}">
+                            </div>
+                        </div>
+                        <div class="col-md-3 help-block">
+                            <span class="input-icon"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">排序</label>
+                        <div class="col-sm-6">
+                            <input type="text" placeholder="排序" class="form-control" name="level" value="{$info['level']}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">显示</label>
+                        <div class="col-sm-6">
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" checked class="onoffswitch-checkbox" id="example1">
+                                    <label class="onoffswitch-label" for="example1">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                                <div class="switch">
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" class="onoffswitch-checkbox" id="example2">
+                                        <label class="onoffswitch-label" for="example2">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <button class="btn btn-primary submit_sure" type="button">保存内容</button>
+                            <!-- <button class="btn btn-white" type="submit">取消</button> -->
+                        </div>
+                    </div>
+                    </fieldset>
+                 </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">图标选择</h4>
+                </div>
+                <div class="modal-body modal-icon" id="icon-icon">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</body>
+<script type="text/javascript">
+    var pid = "{$info.pid}";
+    var model_id = "{$info.model_id}";
+    if(pid){
+        $("#menulist option[value="+pid+"]").attr("selected","selected");
+    }
+
+    if(model_id){
+        $("#model_id option[value="+model_id+"]").attr("selected","selected");
+    }
+    $(".submit_sure").click(function () {
+        var title=$("input[name=title]").val().trim();
+        var model_id=$("select[name=model_id]").val().trim();
+        var name=$("input[name=href]").val().trim();
+        var icon=$("input[name=icon]").val().trim();
+        if(title=='' || title.length<3){
+            $('.input-title').html("标题至少三个字符");
+            title=false;
+        } else {
+            $('.input-title').html("");
+        }
+        if(model_id==''){
+            $('.input-model_id').html("模块为必选项");
+            model_id=false;
+        } else {
+            $('.input-model_id').html("");
+        }
+        if(icon==''){
+            $('.input-icon').html("图标为必选项");
+            icon=false;
+        } else {
+            $('.input-icon').html("");
+        }
+        if(name=='' || (name.split('/')).length<3){
+            $('.input-name').html("链接不符合要求,例如:'aa/Ba/cc'");
+            name=false;
+        }else{
+            $('.input-name').html("");
+        }
+
+        if(title && model_id && icon && name){
+            $.ajax({
+                //几个参数需要注意一下
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: "{:url('admin/System/add_menu')}" ,//url
+                    data: $('#myForm').serialize(),
+                    success: function (result) {
+                        if(result.code == 1){
+                            layer.msg(result.msg, {
+                              icon: 2,
+                              time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                            }, function(){
+                                // window.location.href="{:url('admin/System/menu')}";
+                                window.parent.location.reload();
+                            }); 
+                        }else{
+                            layer.msg(result.msg);
+                        }
+                    },
+                    error : function() {
+                        alert("异常！");
+                    }
+                });
+        }
+
+    });
+
+</script>
+</html>

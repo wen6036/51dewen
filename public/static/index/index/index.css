@@ -1,0 +1,13 @@
+*{
+	padding: 0;
+	margin:0;
+	list-style: none
+}
+
+.nav .active{
+	background: rgba(0, 0, 0, .2);
+}
+.info_main{
+	width: 90%;
+	margin: 0 auto;
+}

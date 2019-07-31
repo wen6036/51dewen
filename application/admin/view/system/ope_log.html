@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {include file="public/link" /}
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="box-header with-border">
+            <h3 class="box-title">操作日志</h3>
+            <div class="box-tools pull-right">
+                <a href="javascript:location.reload();">
+                    <button type="button" class="btn btn-box-tool f16" ajax-reload><i class="fa fa-refresh"></i></button>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>城市</th>
+                            <th>用户</th>
+                            <th>时间</th>
+                            <th>浏览器</th>
+                            <th>ip</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {volist name="loglist" id="vo"}
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.country}</td>
+                            <td>{$vo.user}</td>
+                            <td>{$vo.login_time}</td>
+                            <td>{$vo.brower}</td>
+                            <td>{$vo.ip}</td>                                
+                        </tr>
+                        {/volist}
+                    </tbody>
+                </table>
+            </div>
+            {$page|raw}
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+
+</script>
+</html>

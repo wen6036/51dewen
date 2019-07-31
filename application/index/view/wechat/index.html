@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="__PUBLIC__/jquery/jquery.min.js"></script>
+	<script>
+		//设置根元素字体
+		var win = window,
+		doc = document;
+		function setFontSize() {
+		　　var winWidth = $(window).width();
+
+		　　//750这个数字是根据你的设计图的实际大小来的，所以值具体根据设计图的大小
+		　　var size = (winWidth / 750) * 100;
+		　　doc.documentElement.style.fontSize = (size < 100 ? size : 100) + 'px';
+		};
+		//这里我们给个定时器来实现页面加载完毕再进行字体设置
+		setTimeout(function() {
+		　　//初始化
+		　　setFontSize();
+		}, 100);
+	</script>
+	<style type="text/css">
+		/**{font-size: 0.3rem}*/
+		html{background: url(__PUBLIC__/index/images/bg_wx1.jpg);background-size: 100%}
+		.header{text-align: center;margin-top: 2.2rem}
+		.header img{width: 4rem}
+		.content{font-size: 0.35rem;text-align: center;}
+		.content p{text-align: center;}
+		.go_come{text-align: center;}
+		.go_come button{background:#394d56 ;padding: .15rem 1rem;border-radius: .2rem;font-size: .35rem;color: #fff}
+	</style>
+</head>
+<body>
+<body>
+	<div class="header">
+		<img src="{$userinfo.headimgurl}">
+	</div>
+	<div class="content">
+		<p>城市：{$userinfo.province}.{$userinfo.city}</p>
+		<p>名称：{$userinfo.nickname}</p>
+<!-- 		<p>性别：
+		{if condition="$userinfo.sex eq 1"}
+		男
+		{else /}
+		女
+		{/if}</p> -->
+	</div>
+	<div class="go_come">
+		<button>进入功能页面</button>
+	</div>
+</body>
+</body>
+</html>

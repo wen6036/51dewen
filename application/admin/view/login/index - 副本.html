@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H+ 后台 - 登录111</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__STATIC__/admin//css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="__STATIC__/admin//css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+
+    <link href="__STATIC__/admin//css/animate.min.css" rel="stylesheet">
+    <link href="__STATIC__/admin//css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+</head>
+
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">MK+</h1>
+
+            </div>
+            <h3>欢迎MK后台</h3>
+            <form class="m-t" role="form"  method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="用户名" required="" name="username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="密码" required="" name="password">
+                </div>
+                <div class="form-group login_error" style="text-align: left;color: red;display: none">
+                </div>
+<!--                 <div class="form-group">
+                    <img id="verify_img" src="{:captcha_src()}" alt="验证码" onclick="refreshVerify()">
+                    <a href="javascript:refreshVerify()">点击刷新</a>
+                </div>
+ -->
+                <input type="text" name = "verify" class="form-control">
+                <button type="button" class="btn btn-primary block full-width m-b" id="login_check" style="margin-top: 20px">登 录</button>
+
+            </form>
+        </div>
+    </div>
+    <script src="__STATIC__/admin//js/jquery.min.js?v=2.1.4"></script>
+    <script src="__STATIC__/admin//js/bootstrap.min.js?v=3.3.6"></script>
+</body>
+<script>
+    // function refreshVerify() {
+    //     // var ts = Date.parse(new Date())/1000;
+    //     $('.login_error').html('');
+    //     $('#verify_img').attr("src", "../../captcha"+Math.random());
+    // }
+
+    $('#login_check').click(function(){
+        $('.login_error').html('');
+        $.ajax({
+            url:"{:url('admin/Login/login_check')}",
+            type:"post",
+            dataType:'json',
+            data:$('form').serialize(),
+            success:function(data){
+                console.log(data);
+                if(data.code==0){
+                    $('.login_error').html(data.msg);
+                    $('.login_error').show();
+                }
+                if(data.code==1){
+                    window.location.href="{:url('admin/index/index')}"
+                    $('.login_error').hide();
+                }
+
+            }
+
+        })
+    })
+</script>
+</html>
